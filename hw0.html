@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+</style>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js">
+</script>
+<script src="https://threejs.org/examples/js/controls/OrbitControls.js">
+</script>
+<script>
+var renderer, camera, controls, scene;
+var angle;
+var train;
+
+init();
+animate();
+
+function init() {
+	renderer = new THREE.WebGLRenderer({
+	  antialias: true
+	});
+	renderer.setSize(window.innerWidth, window.innerHeight);
+	renderer.setClearColor(0x888888);
+	document.body.appendChild(renderer.domElement);
+	camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 1000);
+	camera.position.z = 50;  // important
+
+	controls = new THREE.OrbitControls(camera, renderer.domElement);
+	scene = new THREE.Scene();
+
+	let gridXZ = new THREE.GridHelper(100, 10, 'red', 'white');
+	scene.add(gridXZ);
+
+	let axes = new THREE.AxisHelper (10);
+	scene.add (axes);
+
+	train = new THREE.Group();
+  let geometry = new THREE.BoxGeometry (40, 10, 20)
+  let material = new THREE.MeshNormalMaterial()
+  mesh = new THREE.Mesh (geometry, material)
+  //scene.add (mesh)
+
+	let block = new THREE.Mesh (new THREE.CylinderGeometry (4, 4, 15,18,3), new THREE.MeshNormalMaterial());
+  block.position.y = 10;
+  block.position.x = 16
+  train.add (block);
+  train.add (mesh);
+
+  scene.add (train);
+
+	angle = 0;
+}
+
+function animate() {
+  controls.update();
+  renderer.render (scene, camera);
+
+	angle = angle + 0.01;  // radian
+	train.rotation.y = angle + Math.PI/2;
+  //console.log (angle)
+
+  train.position.set (40*Math.cos(angle), 5, -40*Math.sin(angle));
+
+  requestAnimationFrame (animate);
+}
+</script>
+</body>
+</html>
