@@ -175,22 +175,22 @@ class Puck {
   	this.pos.add (this.vel.clone().multiplyScalar(dt))
   
   	if (this.pos.x > 47) {
-      this.vel.x *= -1;
+      this.vel.x *= -0.96;
       this.pos.x = 47;
       collisionSound.play();
     }
     if (this.pos.x < -47) {
-      this.vel.x *= -1;
+      this.vel.x *= -0.96;
       this.pos.x = -47;
       collisionSound.play();
     }
     if (this.pos.z > 47) {
-      this.vel.z *= -1;
+      this.vel.z *= -0.96;
       this.pos.z = 47;
       collisionSound.play();
     }
     if (this.pos.z < -47) {
-      this.vel.z *= -1;
+      this.vel.z *= -0.96;
       this.pos.z = -47;
       collisionSound.play();
     }
