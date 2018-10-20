@@ -346,7 +346,7 @@ function animate() {
 
 	var dt = clock.getDelta();
 	
-  	pucks.forEach (function(p) {p.update(0.005)})
+  	pucks.forEach (function(p) {p.update(0.05)})
 	
 	requestAnimationFrame ( animate );  
 	renderer.render (scene, camera);
