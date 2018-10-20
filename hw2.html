@@ -102,6 +102,8 @@ var isDimming = false, soundVal = 1.0, sign = 1.0;
 var isPaused = false;
 var pointLight, light;
 var pucks = [] ;
+var planes = []
+
 
 class Puck {
 	constructor (mesh,color,radius) {
@@ -119,6 +121,36 @@ class Puck {
        // add to scene when particle is created
   }
   
+  update (dt) {
+		this.vel.add (this.force.clone().multiplyScalar (dt))
+  	this.pos.add (this.vel.clone().multiplyScalar(dt))
+    
+		this.collidingPlanes (planes)
+    this.collisionDetect (dt)
+    
+		this.mesh.position.copy (this.pos)
+    this.light.position.copy (this.pos)
+  }
+
+	collidingPlanes (planes) {
+    const EPS = 1e-3
+    const CR = 0.96
+  	for (let i = 0; i < planes.length; i++) {
+			let plane = planes[i]
+			let point = this.pos.clone().sub (plane.ptOnPl)
+      if ( point.dot(plane.normal) < EPS + this.radius) {
+				// position correction
+      	this.pos.copy (plane.ptOnPl.clone().add (point.projectOnPlane(plane.normal)) )
+        this.pos.add (plane.normal.clone().multiplyScalar(this.radius))
+      	// velocity update
+      	this.vel.sub (plane.normal.clone().multiplyScalar ((1+CR)*this.vel.dot(plane.normal)))
+        collisionSound.play();
+      	//return;  // assume particle collides with AT MOST one plane
+      }
+  	}
+  }
+  
+  
   collisionDetect(dt) {
     for(var i = 0; i < pucks.length; i++) {
       if(!(this === pucks[i])) {
@@ -127,73 +159,52 @@ class Puck {
         var midx = (this.pos.x + pucks[i].pos.x) / 2
         var midz = (this.pos.z + pucks[i].pos.z) / 2
         var distance = Math.sqrt(dx * dx + dz * dz);
-
+				var temp = new THREE.Vector3();
+        
 				this.mesh.position.copy (this.pos)
         this.light.position.copy (this.pos)
 
         this.pos.add (this.vel.clone().multiplyScalar(dt))
-				
-        if(distance < this.radius*2){
-        	if (dx > -this.radius  && dx < 0) {
-            this.vel.x *= -1;
-           	pucks[i].vel.x *= -1;
-            this.pos.x = midx - this.radius;
-            pucks[i].pos.x = midx + pucks[i].radius;
-            collisionSound.play();
-          }
-          if (dx < this.radius && dx > 0) {
-            this.vel.x *= -1;
-            pucks[i].vel.x *= -1;
-           this.pos.x = midx + this.radius;
-            pucks[i].pos.x = midx - pucks[i].radius;
-            collisionSound.play();
-          }
-          if (dz > -this.radius  && dz < 0) {
-            this.vel.z *= -1;
-            pucks[i].vel.z *= -1;
-           	this.pos.z = midz - this.radius;
-            pucks[i].pos.z = midz + pucks[i].radius;
-            collisionSound.play();
-          }
-          if (dz < this.radius  && dz > 0) {
-            this.vel.z *= -1;
-            pucks[i].vel.z *= -1;
-            this.pos.z = midz + this.radius;
-            pucks[i].pos.z = midz - pucks[i].radius;
-            collisionSound.play();
-          }
-        }
         
+        if(distance < this.radius*2){
+        	collisionSound.play();
+        	if(dx < this.radius*2 && dx > 0){
+          	this.pos.x = midx + this.radius;
+            pucks[i].pos.x = midx - pucks[i].radius;
+          }
+          else if(dx > -this.radius*2  && dx < 0){
+          	this.pos.x = midx - this.radius;
+            pucks[i].pos.x = midx + pucks[i].radius;
+          }
+          if(dz < this.radius*2 && dz > 0){
+          	this.pos.z = midz + this.radius;
+            pucks[i].pos.z = midz - pucks[i].radius;
+          }
+          else if(dz > -this.radius*2  && dz < 0){
+          	this.pos.z = midz - this.radius;
+            pucks[i].pos.z = midz + pucks[i].radius;
+          }
+       		temp = this.vel;
+          this.vel = pucks[i].vel;
+          pucks[i].vel = temp;
+        }
 			}
     }
   }
-  
-  collision(dt){
-  	this.mesh.position.copy (this.pos)
-    this.light.position.copy (this.pos)
-    
-  	this.pos.add (this.vel.clone().multiplyScalar(dt))
-  
-  	if (this.pos.x > 47) {
-      this.vel.x *= -0.96;
-      this.pos.x = 47;
-      collisionSound.play();
-    }
-    if (this.pos.x < -47) {
-      this.vel.x *= -0.96;
-      this.pos.x = -47;
-      collisionSound.play();
-    }
-    if (this.pos.z > 47) {
-      this.vel.z *= -0.96;
-      this.pos.z = 47;
-      collisionSound.play();
-    }
-    if (this.pos.z < -47) {
-      this.vel.z *= -0.96;
-      this.pos.z = -47;
-      collisionSound.play();
-    }
+}
+
+class Plane {
+	constructor (localPointOnPlane, localNormal, mesh) {
+    this.localPtOnPl = localPointOnPlane.clone();
+		this.localNormal = localNormal.clone();
+    this.mesh = mesh;  // the graphics representation
+    scene.add (mesh)
+  }
+  update () {
+  	this.mesh.updateMatrixWorld() // important!
+  	this.ptOnPl = this.mesh.localToWorld (this.localPtOnPl.clone());
+    let normalMat = new THREE.Matrix3().getNormalMatrix (this.mesh.matrixWorld);  
+    this.normal = this.localNormal.clone().applyMatrix3 (normalMat).normalize()
   }
 }
 
@@ -220,58 +231,84 @@ function init() {
 	document.body.appendChild (renderer.domElement);
 
 	scene = new THREE.Scene();
-	let puckMesh = new THREE.Mesh (new THREE.CylinderGeometry (3,3,2,20,20), new THREE.MeshLambertMaterial ());
-  
-  
-	puck = new Puck (new THREE.Mesh (new THREE.CylinderGeometry (4,4,2,20,20),new THREE.MeshLambertMaterial()),new THREE.Color (0xff0000),4)
-	puck.vel.set (20,0,-20)
-	puck.pos.set(10,2,0)
-	pucks.push(puck)
-  
-	puck = new Puck (new THREE.Mesh (new THREE.CylinderGeometry (4,4,2,20,20),new THREE.MeshLambertMaterial()),new THREE.Color (0x00ff00),4)
-	puck.vel.set (30,0,15)
-	puck.pos.set(33,2,10)
-	pucks.push(puck)
-  
-	puck = new Puck (new THREE.Mesh (new THREE.CylinderGeometry (4,4,2,20,20),new THREE.MeshLambertMaterial()).clone(),new THREE.Color (0x0000ff),4)
-	puck.vel.set (40,0,20)
-	puck.pos.set(67,2,18)
-	pucks.push(puck)
-  
-	puck = new Puck (new THREE.Mesh (new THREE.CylinderGeometry (4,4,2,20,20),new THREE.MeshLambertMaterial()).clone(),new THREE.Color (0xff00ff),4)
-	puck.vel.set (30,0,-18)
-	puck.pos.set(25,2,30)
-	pucks.push(puck)
-  
-	puck = new Puck (new THREE.Mesh (new THREE.CylinderGeometry (4,4,2,20,20),new THREE.MeshLambertMaterial()).clone(),new THREE.Color (0x00ffff),4)
-	puck.vel.set (-17,0,14)
-	puck.pos.set(2,2,33)
-	pucks.push(puck)
-  
 	
+  let puckMesh = new THREE.Mesh (new THREE.CylinderGeometry (3,3,2,20,20), new THREE.MeshLambertMaterial ());
+  
+  
+  puck = new Puck (new THREE.Mesh (new THREE.CylinderGeometry (4,4,2,20,20),new THREE.MeshLambertMaterial()),new THREE.Color (0xff0000),4)
+  puck.vel.set (20,0,-20)
+  puck.pos.set(10,2,0)
+  puck.update()
+  pucks.push(puck)
+  
+  puck = new Puck (new THREE.Mesh (new THREE.CylinderGeometry (4,4,2,20,20),new THREE.MeshLambertMaterial()),new THREE.Color (0x00ff00),4)
+  puck.vel.set (30,0,15)
+  puck.pos.set(33,2,10)
+  puck.update()
+  pucks.push(puck)
+  
+  puck = new Puck (new THREE.Mesh (new THREE.CylinderGeometry (4,4,2,20,20),new THREE.MeshLambertMaterial()).clone(),new THREE.Color (0x0000ff),4)
+  puck.vel.set (40,0,20)
+  puck.pos.set(67,2,18)
+  puck.update()
+  pucks.push(puck)
+  
+  puck = new Puck (new THREE.Mesh (new THREE.CylinderGeometry (4,4,2,20,20),new THREE.MeshLambertMaterial()).clone(),new THREE.Color (0xff00ff),4)
+  puck.vel.set (30,0,-18)
+  puck.pos.set(25,2,30)
+  puck.update()
+  pucks.push(puck)
+  
+  puck = new Puck (new THREE.Mesh (new THREE.CylinderGeometry (4,4,2,20,20),new THREE.MeshLambertMaterial()).clone(),new THREE.Color (0x00ffff),4)
+  puck.vel.set (-17,0,14)
+  puck.pos.set(2,2,33)
+  puck.update()
+  pucks.push(puck)
+  
+	let plane, wall
+  var wallMaterial = new THREE.MeshPhongMaterial ({color: 0x474747,opacity:0.2,transparent:true});
+  
+  wall = new THREE.Mesh ( new THREE.BoxGeometry (100, 20, 5), wallMaterial )
+  wall.position.y = 5
+  scene.add (wall)
+  wall.position.z = 52.5
+	plane = new Plane (new THREE.Vector3(0,0,-5), new THREE.Vector3(0,0,-1), wall)
+  plane.update()
+  planes.push (plane)
+
+  wall = new THREE.Mesh ( new THREE.BoxGeometry (100, 20, 5), wallMaterial )
+  wall.position.y = 5
+  scene.add (wall)
+  wall.position.z = -52.5
+	plane = new Plane (new THREE.Vector3(0,0,5), new THREE.Vector3(0,0,1), wall.clone())
+  plane.update()
+  planes.push (plane)
+  
+  wall = new THREE.Mesh ( new THREE.BoxGeometry (5, 20, 110), wallMaterial )
+  wall.position.y = 5
+  scene.add (wall)
+  wall.position.x = 52.5
+	plane = new Plane (new THREE.Vector3(-5,0,0), new THREE.Vector3(-1,0,0), wall)
+  plane.update()
+  planes.push (plane)
+  
+  wall = new THREE.Mesh ( new THREE.BoxGeometry (5, 20, 110), wallMaterial )
+  wall.position.y = 5
+  scene.add (wall)
+  wall.position.x = -52.5
+	plane = new Plane (new THREE.Vector3(5,0,0), new THREE.Vector3(1,0,0), wall.clone())
+  plane.update()
+ 
+  planes.push (plane)
+  
+  
 	var cubeGeometry = new THREE.BoxGeometry (100,6,100);
 	var cubeMaterial = new THREE.MeshPhongMaterial ({color: 0x888888});
 	cube = new THREE.Mesh (cubeGeometry, cubeMaterial);
 	cube.position.set (0,-2.5,0);
 	scene.add (cube);
 	
-	var cubeGeometry = new THREE.BoxGeometry (5,20,110);
-	var wallMaterial = new THREE.MeshPhongMaterial ({color: 0x474747,opacity:0.2,transparent:true});
-	var side1 = new THREE.Mesh (cubeGeometry, wallMaterial);
-	side1.position.set (-52.5,5,0);
-	scene.add (side1);
-	var side2 = side1.clone();
-	side2.position.set (52.5, 5,0);
-	scene.add (side2);
 	
-	var cubeGeometry = new THREE.BoxGeometry (100,20,5);
-	var side3 = new THREE.Mesh (cubeGeometry, wallMaterial);
-	side3.position.set (0,5,52.5);
-	scene.add (side3);
-	var side4 = side3.clone();
-	side4.position.set (0,5,-52.5);
-	scene.add (side4);
-
 	camera = new THREE.PerspectiveCamera (45, width/height, 1, 10000);
 	camera.position.y = 80;
 	camera.position.z = 200;
@@ -307,14 +344,8 @@ function animate() {
 
 	var dt = clock.getDelta();
 	
+  pucks.forEach (function(p) {p.update(0.005)})
 	
-  for (let i = 0; i < pucks.length; i++) {
-  	pucks[i].collision(dt);
-    pucks[i].collisionDetect(dt);
-    pucks[i].mesh.position.copy (pucks[i].pos)
-  }
-  
-  
 	requestAnimationFrame ( animate );  
 	renderer.render (scene, camera);
 }
