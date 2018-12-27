@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<link rel="stylesheet" type="text/css" href="css/mystyle.css">
+</head>
+
+<body>
+<div id="info">Agent (Seek, Arrival, Collision)<br>
+<p id="message"></p>
+Count up  <span id="time">00:00</span>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js"></script>
+<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<script src="js/agent0.js"></script>
+<script src="js/obstacle.js"></script>
+<script src="js/target.js"></script>
+
+<!-- must be before main.js -->
+<script src="js/scene.js"></script>
+<script src="js/threemain.js"></script>
+
+<script src="js/main.js"></script>
+</body>
+
+</html>
+<script>
+  function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10)
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+        if(over){
+          return;
+        }
+        if (++timer < 0) {
+            timer = duration;
+        }
+
+    }, 1000);
+  }
+
+  window.onload = function () {
+    var zeroMinutes = 0,
+        display = document.querySelector('#time');
+    startTimer(zeroMinutes, display);
+  };
+</script>
