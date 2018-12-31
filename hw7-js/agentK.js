@@ -1,5 +1,6 @@
 import {scene} from './threemain.js';
 
+var turn = false;
 function agentMesh (size, colorName='red') {
 	// mesh facing +x
 	let geometry = new THREE.Geometry();
@@ -73,11 +74,17 @@ class Agent {
 	 				perp.setLength (K*overlap);
 	 				perp.negate()
 	 				console.log(perp)
+					turn = true;
 					return;
 
 	 			}
 			}
 		});
+		if(turn){
+			this.force.add (perp);
+			console.log ("hit:", perp);
+			turn = false;
+		}
 
     // pick the most threatening one
     // apply the repulsive force
