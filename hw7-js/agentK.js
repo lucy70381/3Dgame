@@ -1,4 +1,5 @@
 import {scene} from './threemain.js';
+
 function agentMesh (size, colorName='red') {
 	// mesh facing +x
 	let geometry = new THREE.Geometry();
@@ -19,7 +20,7 @@ function agentMesh (size, colorName='red') {
 
 class Agent {
   constructor(pos, halfSize) {
-  	this.name = "Lucy";
+  	this.name = "Lucy2";
     this.pos = pos.clone();
     this.vel = new THREE.Vector3();
     this.force = new THREE.Vector3();
