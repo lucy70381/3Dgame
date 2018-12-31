@@ -78,11 +78,7 @@ class Agent {
 	 			}
 			}
 		});
-		if(turn){
-			this.force.add (perp);
-			console.log ("hit:", perp);
-			turn = false;
-		}
+		
 
     // pick the most threatening one
     // apply the repulsive force
