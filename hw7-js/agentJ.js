@@ -72,7 +72,6 @@ class Agent {
 	 				perp.setLength (K*overlap);
 	 				perp.negate()
 	 				console.log(perp)
-					turn = true;
 					return;
 
 	 			}
