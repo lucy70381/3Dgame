@@ -19,13 +19,13 @@ function agentMesh (size, colorName='red') {
 
 class Agent {
   constructor(pos, halfSize) {
-  	this.name = "Lucy";
+  	this.name = "Lucy1";
     this.pos = pos.clone();
     this.vel = new THREE.Vector3();
     this.force = new THREE.Vector3();
     this.target = null;
     this.halfSize = halfSize;  // half width
-    this.mesh = agentMesh (this.halfSize, 'cyan');
+    this.mesh = agentMesh (this.halfSize, 'red');
     this.MAXSPEED = 100;
     this.ARRIVAL_R = 30;
 		this.size = 2*halfSize;
