@@ -53,38 +53,32 @@ class Agent {
     // collision
     // for all obstacles in the scene
 		let obs = scene.obstacles;
-
-		const REACH = 100
-		const K = 20
-
-		let vhat = this.vel.clone().normalize();
-		let pos = this.pos;
-		let size = this.size;
-		let perp;
-
-		obs.forEach(function(element) {
-			let point = element.center.clone().sub (pos) // c-p
-			let proj  = point.dot(vhat);
-
-			if (proj > 0 && proj < REACH){
-				perp = new THREE.Vector3();
-				perp.subVectors (point, vhat.clone().setLength(proj));
-				let overlap = element.size + size - perp.length()
-				if (overlap > 0){
-	 				perp.setLength (K*overlap);
-	 				perp.negate()
-	 				console.log(perp)
-					turn = true;
-					return;
-
-	 			}
-			}
-		});
-		if(turn){
+		let theOne = null;
+    let dist = 1e10;
+    let vhat = this.vel.clone().normalize();
+    const REACH = 150
+    const K = 5
+    let perp;
+    for (let i = 0; i < obs.length; i++) {
+      let point = obs[i].center.clone().sub (this.pos) // c-p
+      let proj  = point.dot(vhat);
+      if (proj > 0 && proj < REACH) {
+        perp = new THREE.Vector3();
+        perp.subVectors (point, vhat.clone().setLength(proj));
+        let overlap = obs[i].size + this.halfSize - perp.length()
+        if (overlap > 0 && proj < dist) {
+            theOne = obs[i]
+            dist = proj
+            perp.setLength (K*overlap);
+            perp.negate()
+        }
+      }
+			if (obs[i].center.distanceTo (this.pos) <obs[i].size * 1.5)
+				this.vel = obs[i].center.clone().sub(this.pos).normalize().multiplyScalar(Math.cos(15)*3).add(this.vel.multiplyScalar(0.987));
+    }
+    if (theOne){
 			this.force.add (perp);
-			console.log ("hit:", perp);
-			turn = false;
-		}
+   }
 
     // pick the most threatening one
     // apply the repulsive force
