@@ -21,7 +21,7 @@ function agentMesh (size, colorName='red') {
 
 class Agent {
   constructor(pos, halfSize) {
-  	this.name = "Lucy1";
+  	this.name = "楊惠如";
     this.pos = pos.clone();
     this.vel = new THREE.Vector3();
     this.force = new THREE.Vector3();
