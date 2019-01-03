@@ -46,7 +46,7 @@ function init() {
     agentJ = new AgentJ(randomStart(), size);
     //agentJ = new AgentJ(new THREE.Vector3(500, 0, 0), size);
 
-  	randXZ = [-400 + Math.random()*800, -400 + Math.random()*800];
+  	//randXZ = [-400 + Math.random()*800, -400 + Math.random()*800];
     agentK = new AgentJ(randomStart(), size);
   
     agentJ.setEnemy(agentK);
