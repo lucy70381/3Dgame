@@ -55,7 +55,7 @@ class Agent {
 		let obs = scene.obstacles;
 
 		const REACH = 1000
-		const K = 50
+		const K = 100
 
 		let vhat = this.vel.clone().normalize();
 		let pos = this.pos;
