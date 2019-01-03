@@ -54,7 +54,7 @@ class Agent {
     // for all obstacles in the scene
 		let obs = scene.obstacles;
 
-		const REACH = 300
+		const REACH = 500
 		const K = 50
 
 		let vhat = this.vel.clone().normalize();
