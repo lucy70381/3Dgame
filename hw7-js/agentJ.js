@@ -147,7 +147,7 @@ class Agent {
     // seek
     this.force.copy(this.targetInducedForce(this.target.pos));
 	  
-    let push = new THREE.Vectoe3();
+    let push = new THREE.Vector3();
     let point  = this.pos.clone().sub(this.enemy.pos);
     let d = point.length();
     if (d<50){
