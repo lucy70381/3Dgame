@@ -43,15 +43,34 @@ function init() {
   
   //////////////////////////////////////////////////////////////////////////	
   	let size = 10; // halfsize of agent
-  	let randXZ = [-400 + Math.random()*800, -400 + Math.random()*800];
-//    agentJ = new AgentJ(new THREE.Vector3(randXZ[0], 0, randXZ[1]), size);
-    agentJ = new AgentJ(new THREE.Vector3(500, 0, 0), size);
+    agentJ = new AgentJ(randomStart(), size);
+    //agentJ = new AgentJ(new THREE.Vector3(500, 0, 0), size);
 
   	randXZ = [-400 + Math.random()*800, -400 + Math.random()*800];
-    agentK = new AgentK(new THREE.Vector3(200,0,-200), size);
-
+    agentK = new AgentJ(randomStart(), size);
+  
+    agentJ.setEnemy(agentK);
+    agentK.setEnemy(agentJ);
 }
 
+function randomStart(){
+  var pos = new THREE.vector3();
+  var done = false;
+  
+  do{
+    pos.x = -400+Math.random()*800;
+    pos.y =0;
+    pos.z = -400+Math.random()*800;
+    for(var i = 0;i<scene.obstacles.length;i++){
+      if(scene.obstacles[i].center.distanceTo(pos) < scene.obstacles[i].size)
+        break;
+    }
+    if(i===scene.obstacles.length)
+      done = true;
+  }
+  while(! done)
+  return pos;
+}
 
 function animate() {
 
