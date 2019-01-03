@@ -54,7 +54,7 @@ function init() {
 }
 
 function randomStart(){
-  var pos = new THREE.vector3();
+  var pos = new THREE.Vector3();
   var done = false;
   
   do{
