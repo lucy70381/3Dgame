@@ -28,8 +28,8 @@ class Agent {
     this.target = null;
     this.halfSize = halfSize;  // half width
     this.mesh = agentMesh (this.halfSize, 'red');
-    this.MAXSPEED = 800;
-    this.ARRIVAL_R = 800;
+    this.MAXSPEED = 600;
+    this.ARRIVAL_R = 600;
 		this.size = 2*halfSize;
 
     this.score = 0;
@@ -54,7 +54,7 @@ class Agent {
     // for all obstacles in the scene
 		let obs = scene.obstacles;
 
-		const REACH = 600
+		const REACH = 400
 		const K = 200
 
 		let vhat = this.vel.clone().normalize();
