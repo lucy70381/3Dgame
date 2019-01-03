@@ -28,8 +28,8 @@ class Agent {
     this.target = null;
     this.halfSize = halfSize;  // half width
     this.mesh = agentMesh (this.halfSize, 'cyan');
-    this.MAXSPEED = 100;
-    this.ARRIVAL_R = 30;
+    this.MAXSPEED = 9000;
+    this.ARRIVAL_R = 5;
 		this.size = 2*halfSize;
 
     this.score = 0;
