@@ -28,7 +28,7 @@ class Agent {
     this.target = null;
     this.halfSize = halfSize;  // half width
     this.mesh = agentMesh (this.halfSize, 'cyan');
-    this.MAXSPEED = 9000;
+    this.MAXSPEED = 800;
     this.ARRIVAL_R = 5;
 		this.size = 2*halfSize;
 
@@ -56,7 +56,7 @@ class Agent {
 		let theOne = null;
     let dist = 1e10;
     let vhat = this.vel.clone().normalize();
-    const REACH = 150
+    const REACH = 50
     const K = 5
     let perp;
     for (let i = 0; i < obs.length; i++) {
