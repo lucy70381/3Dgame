@@ -77,7 +77,7 @@
 <source src="sounds/audio.mp3" type="audio/mp3">
 </audio>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/106/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/107/three.min.js"></script>
 <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 
@@ -248,24 +248,28 @@ function init() {
 	puck.pos.set(33,2,10)
 	puck.update()
 	pucks.push(puck)
+	scene.add (puck)
 
 	puck = new Puck (new THREE.Mesh (new THREE.CylinderGeometry (4,4,2,20,20),new THREE.MeshLambertMaterial()).clone(),new THREE.Color (0x0000ff),4)
 	puck.vel.set (40,0,20)
 	puck.pos.set(67,2,18)
 	puck.update()
 	pucks.push(puck)
+	scene.add (puck)
 
 	puck = new Puck (new THREE.Mesh (new THREE.CylinderGeometry (4,4,2,20,20),new THREE.MeshLambertMaterial()).clone(),new THREE.Color (0xff00ff),4)
 	puck.vel.set (30,0,-18)
 	puck.pos.set(25,2,30)
 	puck.update()
 	pucks.push(puck)
+	scene.add (puck)
 
 	puck = new Puck (new THREE.Mesh (new THREE.CylinderGeometry (4,4,2,20,20),new THREE.MeshLambertMaterial()).clone(),new THREE.Color (0x00ffff),4)
 	puck.vel.set (-17,0,14)
 	puck.pos.set(2,2,33)
 	puck.update()
 	pucks.push(puck)
+	scene.add (puck)
   
 	let plane, wall
 	var wallMaterial = new THREE.MeshPhongMaterial ({color: 0x474747,opacity:0.2,transparent:true});
