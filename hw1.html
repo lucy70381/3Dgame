@@ -14,6 +14,52 @@
     overflow: hidden;
   }
 </style>
+<script id="spHTMLFormElementPrototypeScript">(function ()
+{
+  try
+  {
+    document.sp_old_HTMLFormElementPrototype = new Object();
+    document.sp_old_HTMLFormElementPrototype.submit = HTMLFormElement.prototype.submit;
+    HTMLFormElement.prototype.submit = function(AEvent)
+    {
+      var spEvent = document.createEvent('Event');
+      spEvent.initEvent('sp_submit', true, true);
+      this.dispatchEvent(spEvent);
+      document.sp_old_HTMLFormElementPrototype.submit.apply(this);
+    };
+  }
+  catch(ErrorMessage)
+  {
+    alert('Error attaching to HTMLFormElement.prototype.submit: ' + ErrorMessage);
+  }
+  try
+  {
+    if (typeof __doPostBack == 'function')
+    {
+      (function() {
+        var sp_old__doPostBack = __doPostBack;
+        __doPostBack = function(eventTarget, eventArgument)
+        {
+		  try
+		  {
+            var spEvent = document.createEvent('Event');
+            spEvent.initEvent('sp_submit', true, true);
+            window.dispatchEvent(spEvent);
+		  }
+		  catch(ErrorMessage)
+		  {
+			alert('Error sending doPostBack event: ' + ErrorMessage);
+		  }
+          sp_old__doPostBack(eventTarget, eventArgument);
+        };
+      })();
+    }
+  }
+  catch(ErrorMessage)
+  {
+    alert('Error attaching to __doPostBack(): ' + ErrorMessage);
+  }
+})();</script>
 </head>
 <body>
 <div id="info">My Second Three.js
