@@ -115,8 +115,8 @@ class Puck {
 		this.mesh.material.color = color;
 		this.light = new THREE.PointLight (color, 1,100)
 
-		scene.add (this.light)
-		scene.add (this.mesh)
+		//scene.add (this.light)
+		//scene.add (this.mesh)
 		// add to scene when particle is created
 	}
   
@@ -240,36 +240,36 @@ function init() {
 	puck = new Puck (new THREE.Mesh (new THREE.CylinderGeometry (4,4,2,20,20),new THREE.MeshLambertMaterial()),new THREE.Color (0xff0000),4)
 	puck.vel.set (20,0,-20)
 	puck.pos.set(10,2,0)
+	scene.add (puck)
 	puck.update()
 	pucks.push(puck)
 
 	puck = new Puck (new THREE.Mesh (new THREE.CylinderGeometry (4,4,2,20,20),new THREE.MeshLambertMaterial()),new THREE.Color (0x00ff00),4)
 	puck.vel.set (30,0,15)
 	puck.pos.set(33,2,10)
+	scene.add (puck)
 	puck.update()
 	pucks.push(puck)
-	scene.add (puck)
 
 	puck = new Puck (new THREE.Mesh (new THREE.CylinderGeometry (4,4,2,20,20),new THREE.MeshLambertMaterial()).clone(),new THREE.Color (0x0000ff),4)
 	puck.vel.set (40,0,20)
 	puck.pos.set(67,2,18)
 	puck.update()
 	pucks.push(puck)
-	scene.add (puck)
 
 	puck = new Puck (new THREE.Mesh (new THREE.CylinderGeometry (4,4,2,20,20),new THREE.MeshLambertMaterial()).clone(),new THREE.Color (0xff00ff),4)
 	puck.vel.set (30,0,-18)
 	puck.pos.set(25,2,30)
+	scene.add (puck)
 	puck.update()
 	pucks.push(puck)
-	scene.add (puck)
 
 	puck = new Puck (new THREE.Mesh (new THREE.CylinderGeometry (4,4,2,20,20),new THREE.MeshLambertMaterial()).clone(),new THREE.Color (0x00ffff),4)
 	puck.vel.set (-17,0,14)
 	puck.pos.set(2,2,33)
+	scene.add (puck)
 	puck.update()
 	pucks.push(puck)
-	scene.add (puck)
   
 	let plane, wall
 	var wallMaterial = new THREE.MeshPhongMaterial ({color: 0x474747,opacity:0.2,transparent:true});
