@@ -77,8 +77,8 @@
 <source src="sounds/audio.mp3" type="audio/mp3">
 </audio>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/107/three.min.js"></script>
-<script src="https://threejs.org/examples/js/controls/OrbitControls.js">
+<script src="https://cdn.jsdelivr.net/npm/three@0.84.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.84.0/examples/js/controls/OrbitControls.js">
 </script>
 <script src="https://jyunming-chen.github.io/game3js/js/ccdsys.js"></script>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
@@ -106,6 +106,7 @@ class Particle {
     scene.add (this.light)
     scene.add (mesh)   // add to scene when particle is created
   }
+
   update (dt) {
 		this.vel.add (this.force.clone().multiplyScalar (dt))
   	this.pos.add (this.vel.clone().multiplyScalar(dt))
@@ -128,10 +129,10 @@ class Particle {
       this.vel.x = - 0.9*this.vel.x;
     }
 
-      this.mesh.position.copy (this.pos)
-      this.light.position.copy (this.pos)
-      this.light.position.y += 15
-    }
+    this.mesh.position.copy (this.pos)
+    this.light.position.copy (this.pos)
+    this.light.position.y += 15
+  }
 
 }
 
@@ -141,6 +142,7 @@ class TwoLinkArm {
   	this.theta1 = 0;
     this.theta2 = 0;
   }
+
   init () {
   let twoLink = new THREE.Object3D();
 
@@ -169,6 +171,7 @@ class TwoLinkArm {
   return twoLink;
 
   }
+
   update (thetas) {
   	this.theta1 = thetas[0]
     this.theta2 = thetas[1]
@@ -221,6 +224,7 @@ class TwoLinkArm {
 		}
 	}
 }
+
 var camera, scene, renderer;
 //var link1, link2, theta1, theta2;
 //var ccdSys;
@@ -286,8 +290,8 @@ function init() {
   document.body.appendChild(renderer.domElement);
   ///////////////////////////////////////////////////////////
 /*
-let mat = new THREE.MeshNormalMaterial()
-	link1 = new THREE.Object3D();
+  let mat = new THREE.MeshNormalMaterial()
+  link1 = new THREE.Object3D();
   link1.add (new THREE.AxisHelper (10))
   mesh = new THREE.Mesh (new THREE.BoxGeometry (10,3,5), mat)
   link1.add (mesh);
@@ -331,7 +335,7 @@ let mat = new THREE.MeshNormalMaterial()
 
   twoLinkArm2.target = new THREE.Vector3();
 
-//theta1 = theta2 = 0
+  //theta1 = theta2 = 0
   ///////////////////////////////////////////
   let plane = new THREE.Mesh(new THREE.PlaneGeometry(100, 100), new THREE.MeshBasicMaterial({
     transparent: true,
@@ -363,6 +367,7 @@ function onDocumentMouseUp(event) {
 		//twoLinkArm.target.copy (dx,0,dz)
 	}
 }
+
 function onDocumentMouseMove(event) {
 	event.preventDefault();
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -381,7 +386,6 @@ function onDocumentMouseMove(event) {
 
   }
 }
-
 
 function onDocumentMouseDown(event) {
 	event.preventDefault();
@@ -447,6 +451,4 @@ function update() {
 }
 
 </script><canvas width="1365" height="889" style="width: 1365px; height: 889px;"></canvas>
-
-
 </body></html>
