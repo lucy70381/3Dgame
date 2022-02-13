@@ -74,8 +74,8 @@
 <source src="sounds/hw5.mp3" type="audio/mp3">
 </audio>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/107/three.min.js"></script>
-<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.84.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.84.0/examples/js/controls/OrbitControls.js"></script>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://jyunming-chen.github.io/tutsplus/js/KeyboardState.js"></script>
 
@@ -368,10 +368,12 @@
         controlsA.moveLeft = false
         controlsA.moveRight = false
       }
-      else
+      else {
         astroWrap.md2.root.position.y = height(pos.x,pos.z)+20
+      }
 
       box3.setFromObject (astroWrap.md2.root)
+
       if(Math.abs(astroWrap.md2.root.position.x-box1.position.x)<10){
           if(Math.abs(astroWrap.md2.root.position.z-box1.position.z)<10){
             if(astroWrap.md2.root.position.y + 23.5 > box1.position.y-5){
@@ -383,6 +385,7 @@
           }
 
       }
+
       if(Math.abs(astroWrap.md2.root.position.x-box2.position.x)<10){
           if(Math.abs(astroWrap.md2.root.position.z-box2.position.z)<10){
             if(astroWrap.md2.root.position.y + 23.5 > box2.position.y-5){
@@ -402,6 +405,4 @@
 //15 47 18
 
 </script><canvas width="1365" height="889" style="width: 1365px; height: 889px;"></canvas>
-
-
 </body></html>
