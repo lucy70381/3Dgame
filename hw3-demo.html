@@ -14,7 +14,6 @@
   top: 50px;
   right: 10px;
   height: 500px;
-  //text-align: center;
 }
 
 body {
@@ -72,8 +71,8 @@ body {
 <div id="info">Homework 3 demo
   <br>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/107/three.min.js"></script>
-<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.84.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.84.0/examples/js/controls/OrbitControls.js"></script>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.min.js"></script>
@@ -208,35 +207,31 @@ function init() {
 function makeBox() {
 	THREE.ImageUtils.crossOrigin = '';
 	var texture = THREE.ImageUtils.loadTexture('https://i.imgur.com/59vuZKV.png');
-  var texture1 =
-THREE.ImageUtils.loadTexture('http://i.imgur.com/vGQeU4e.png');
-  var texture4 =
-THREE.ImageUtils.loadTexture('http://i.imgur.com/s98kKYy.png');
+  var texture1 = THREE.ImageUtils.loadTexture('http://i.imgur.com/vGQeU4e.png');
+  var texture4 = THREE.ImageUtils.loadTexture('http://i.imgur.com/s98kKYy.png');
+
 	var materials = [];
   // must give 6 materials for box geometry
   materials.push(new THREE.MeshLambertMaterial({side:THREE.DoubleSide, map:texture}));
   materials.push(new THREE.MeshLambertMaterial({side:THREE.DoubleSide, map:texture}));
   materials.push(new THREE.MeshLambertMaterial({side:THREE.DoubleSide, map:texture}));
-    materials.push(new THREE.MeshLambertMaterial({visible:false}));
+  materials.push(new THREE.MeshLambertMaterial({visible:false}));
   materials.push(new THREE.MeshLambertMaterial({side:THREE.DoubleSide, map:texture1}));
   materials.push(new THREE.MeshLambertMaterial({side:THREE.DoubleSide, map:texture4}));
 
-  box = new THREE.Mesh(new THREE.BoxGeometry(3.3, 4, 3.3),
-    new THREE.MeshFaceMaterial(materials));
+  box = new THREE.Mesh(new THREE.BoxGeometry(3.3, 4, 3.3), new THREE.MeshFaceMaterial(materials));
   return box;
 }
+
 function makehead() {
 	//THREE.ImageUtils.crossOrigin = '';
 	var texture = THREE.ImageUtils.loadTexture('http://i.imgur.com/j9wvanM.png');
-  var texture1 =
-THREE.ImageUtils.loadTexture('http://i.imgur.com/iFmOHne.png');
+  var texture1 = THREE.ImageUtils.loadTexture('http://i.imgur.com/iFmOHne.png');
 	var texture2 = THREE.ImageUtils.loadTexture('https://i.imgur.com/59vuZKV.png');
-  var texture3 =
-THREE.ImageUtils.loadTexture('http://i.imgur.com/qHUxcni.png');
-  var texture4 =
-THREE.ImageUtils.loadTexture('http://i.imgur.com/HlvBG9r.png');
-  var texture5 =
-THREE.ImageUtils.loadTexture('http://i.imgur.com/6CENCr5.png');
+  var texture3 = THREE.ImageUtils.loadTexture('http://i.imgur.com/qHUxcni.png');
+  var texture4 = THREE.ImageUtils.loadTexture('http://i.imgur.com/HlvBG9r.png');
+  var texture5 = THREE.ImageUtils.loadTexture('http://i.imgur.com/6CENCr5.png');
+
 	var materials = [];
   // must give 6 materials for box geometry
   materials.push(new THREE.MeshLambertMaterial({side:THREE.DoubleSide, map:texture5}));
@@ -246,44 +241,40 @@ THREE.ImageUtils.loadTexture('http://i.imgur.com/6CENCr5.png');
   materials.push(new THREE.MeshLambertMaterial({side:THREE.DoubleSide, map:texture3}));
   materials.push(new THREE.MeshLambertMaterial({side:THREE.DoubleSide, map:texture}));
 
-  var box = new THREE.Mesh(new THREE.BoxGeometry(6.6, 4.3, 4.6),
-    new THREE.MeshFaceMaterial(materials));
+  var box = new THREE.Mesh(new THREE.BoxGeometry(6.6, 4.3, 4.6), new THREE.MeshFaceMaterial(materials));
   return box;
 }
+
 function makearm() {
 	var oneLink = new THREE.Object3D();
 	THREE.ImageUtils.crossOrigin = '';
 	var texture = THREE.ImageUtils.loadTexture('https://i.imgur.com/59vuZKV.png');
-  box = new THREE.Mesh(new THREE.BoxGeometry(1.2, 3.5, 1.3),
-    new THREE.MeshLambertMaterial({side:THREE.DoubleSide, map:texture}));
+  box = new THREE.Mesh(new THREE.BoxGeometry(1.2, 3.5, 1.3), new THREE.MeshLambertMaterial({side:THREE.DoubleSide, map:texture}));
   box.position.set(0,-2.2,0);
-   var joint = new THREE.Mesh (new THREE.CylinderGeometry (1/2, 1/2, 1.3, 16),
-  	new THREE.MeshBasicMaterial({wireframe:true}));
-   joint.rotation.x = Math.PI/2;
- 	 joint.position.set(0,0,0);
+  var joint = new THREE.Mesh (new THREE.CylinderGeometry (1/2, 1/2, 1.3, 16), new THREE.MeshBasicMaterial({wireframe:true}));
+  joint.rotation.x = Math.PI/2;
+  joint.position.set(0,0,0);
   oneLink.add(box);
   oneLink.add(joint);
   return oneLink;
 }
+
 function makeleg() {
 	var oneLink = new THREE.Object3D();
 	THREE.ImageUtils.crossOrigin = '';
 	var texture = THREE.ImageUtils.loadTexture('https://i.imgur.com/59vuZKV.png');
-  var texture1 =
-THREE.ImageUtils.loadTexture('http://i.imgur.com/vGQeU4e.png');
-  var texture4 =
-THREE.ImageUtils.loadTexture('http://i.imgur.com/s98kKYy.png');
-  box = new THREE.Mesh(new THREE.BoxGeometry(1.3, 3, 3),
-     new THREE.MeshLambertMaterial({side:THREE.DoubleSide, map:texture}));
-     box.position.set(0,-2,0);
-      var joint = new THREE.Mesh (new THREE.CylinderGeometry (1/2, 1/2, 2, 16),
-  		new THREE.MeshBasicMaterial({wireframe:true}));
-   		joint.rotation.x = Math.PI/2;
- 			 joint.position.set(0,0,0);
- 			 oneLink.add(box);
- 			 oneLink.add(joint);
+  var texture1 = THREE.ImageUtils.loadTexture('http://i.imgur.com/vGQeU4e.png');
+  var texture4 = THREE.ImageUtils.loadTexture('http://i.imgur.com/s98kKYy.png');
+  box = new THREE.Mesh(new THREE.BoxGeometry(1.3, 3, 3), new THREE.MeshLambertMaterial({side:THREE.DoubleSide, map:texture}));
+  box.position.set(0,-2,0);
+  var joint = new THREE.Mesh(new THREE.CylinderGeometry (1/2, 1/2, 2, 16), new THREE.MeshBasicMaterial({wireframe:true}));
+  joint.rotation.x = Math.PI/2;
+  joint.position.set(0,0,0);
+  oneLink.add(box);
+  oneLink.add(joint);
   return oneLink;
 }
+
 function makeLid() {
   var lid = new THREE.Object3D();
   THREE.ImageUtils.crossOrigin = '';
@@ -292,12 +283,14 @@ function makeLid() {
     new THREE.MeshLambertMaterial({
       side: THREE.DoubleSide,
       map : texture
-    }));
+    })
+  );
   lid.add(lidPlane);
   lid.position.set(0,-2.5,1.95);
   lid.rotation.x = -Math.PI / 6;
   return lid;
 }
+
 function makeLid1() {
   var lid = new THREE.Object3D();
   THREE.ImageUtils.crossOrigin = '';
@@ -306,13 +299,15 @@ function makeLid1() {
     new THREE.MeshLambertMaterial({
       side: THREE.DoubleSide,
       map : texture
-    }));
+    })
+  );
   lid.add(lidPlane);
   lid.position.set(0,-2.5,-1.95);
   lid.rotation.x = Math.PI / 6;
 
   return lid;
 }
+
 function makeLid2() {
   var lid = new THREE.Object3D();
   THREE.ImageUtils.crossOrigin = '';
@@ -321,7 +316,8 @@ function makeLid2() {
     new THREE.MeshLambertMaterial({
       side: THREE.DoubleSide,
       map : texture
-    }));
+    })
+  );
   lid.add(lidPlane);
   lid.position.set(1.95,-2.5,0);
   lid.rotation.y = -Math.PI / 2;
@@ -329,6 +325,7 @@ function makeLid2() {
   lid.rotation.y = Math.PI / 3;
   return lid;
 }
+
 function makeLid3() {
   var lid = new THREE.Object3D();
   THREE.ImageUtils.crossOrigin = '';
@@ -337,7 +334,8 @@ function makeLid3() {
     new THREE.MeshLambertMaterial({
       side: THREE.DoubleSide,
       map : texture
-    }));
+    })
+  );
   lid.add(lidPlane);
   lid.position.set(-1.95,-2.5,0);
   lid.rotation.y = -Math.PI / 2;
@@ -345,6 +343,7 @@ function makeLid3() {
   lid.rotation.y = -Math.PI / 3;
   return lid;
 }
+
 function loadJSON() {
 	return {
   "preset": "pose3",
@@ -419,6 +418,7 @@ function loadJSON() {
 };
 
 }
+
 function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
@@ -456,7 +456,4 @@ function animate() {
 }
 
 </script>
-
-
-
 </body></html>
