@@ -65,11 +65,13 @@
 <div id="info">My Second Three.js
   <br> turning, buttons, orbitControls, resize
   <br>
+  <br>Home啟動 Space停止
+  <br>方向鍵上下調整速度 方向鍵左右操作方向 
   <br>
   <button id="toggle" style="width:20%">Toggle Turn</button>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/107/three.min.js"></script>
-<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.84.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.84.0/examples/js/controls/OrbitControls.js"></script>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://jyunming-chen.github.io/tutsplus/js/KeyboardState.js"></script>
 <script>
@@ -177,7 +179,7 @@ function update(dt) {
   }
   
 
-	 // compute force
+	// compute force
   var thrust = new THREE.Vector3(1,0,0).multiplyScalar(power).applyAxisAngle       (new THREE.Vector3(0,1,0), angle_thrust);
   force.copy (thrust);
   force.add(vel.clone().multiplyScalar(-2))
@@ -207,7 +209,7 @@ function animate() {
   mesh.rotation.y = angle;
 
 
-	//if (keyboard.down("up")) whichCamera = (whichCamera + 1) % 2;
+  // if (keyboard.down("up")) whichCamera = (whichCamera + 1) % 2;
 
   requestAnimationFrame(animate);
   let camera;
