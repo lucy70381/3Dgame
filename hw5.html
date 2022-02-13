@@ -67,7 +67,7 @@
 
   <div id="info">Homework 5
     <br>up:前進,down:後退,right:向右,left:向左,space:跳躍,Ctrl:攻擊,C:蹲下<br>
-    <button id="play" style="width:20%">Play</button>
+    <button id="play" style="width:20%">Pause</button>
 </div>
 
 <audio id="soundtrack" autoplay="" loop="" style="display:none">
@@ -85,7 +85,7 @@
 <script src="js/Gyroscope.js"></script>
 
 <script>
-  var isPaused = true, soundTrack;
+  var isPaused = false, soundTrack;
 
   $('#play').click ( function() {
   	isPaused = !isPaused;
