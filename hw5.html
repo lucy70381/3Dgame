@@ -141,7 +141,7 @@
   var vel = new THREE.Vector3();
   var force = new THREE.Vector3();
   var power, angle;
-  var box3, box3Helper;
+  var box3,box3Helper;
 
   (function() {
     Math.clamp = function(val,min,max){
@@ -168,8 +168,6 @@
   }
 
   function init() {
-    
-	  soundTrack = document.getElementById ('soundtrack');
 
     clock = new THREE.Clock();
     scene = new THREE.Scene();
@@ -371,12 +369,10 @@
         controlsA.moveLeft = false
         controlsA.moveRight = false
       }
-      else {
+      else
         astroWrap.md2.root.position.y = height(pos.x,pos.z)+20
-      }
 
-      // box3.setFromObject (astroWrap.md2.root)
-
+      box3.setFromObject (astroWrap.md2.root)
       if(Math.abs(astroWrap.md2.root.position.x-box1.position.x)<10){
           if(Math.abs(astroWrap.md2.root.position.z-box1.position.z)<10){
             if(astroWrap.md2.root.position.y + 23.5 > box1.position.y-5){
@@ -388,7 +384,6 @@
           }
 
       }
-
       if(Math.abs(astroWrap.md2.root.position.x-box2.position.x)<10){
           if(Math.abs(astroWrap.md2.root.position.z-box2.position.z)<10){
             if(astroWrap.md2.root.position.y + 23.5 > box2.position.y-5){
