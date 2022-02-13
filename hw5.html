@@ -85,6 +85,7 @@
 <script src="js/Gyroscope.js"></script>
 
 <script>
+  var isPaused = true, soundTrack;
 
   $('#play').click ( function() {
   	isPaused = !isPaused;
@@ -167,6 +168,8 @@
   }
 
   function init() {
+    
+	  soundTrack = document.getElementById ('soundtrack');
 
     clock = new THREE.Clock();
     scene = new THREE.Scene();
